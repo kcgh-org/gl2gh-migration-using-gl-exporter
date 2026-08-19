@@ -485,7 +485,8 @@ gh extension install https://github.com/github/gh-ado2gh
 
 ### 6.3 Build gl-exporter Docker Image
 
-For GitHub Actions (GHA) Pipeline Migration, the workflow automatically builds the `gl-exporter` Docker image if it is not already available. If the local gl_exporter directory is not present, the workflow clones the gl-exporter source repository and builds the image automatically.
+- For GitHub Actions (GHA) Pipeline Migration, the workflow automatically builds the `gl-exporter` Docker image if it is not already available.
+- If the local gl_exporter directory is not present, the workflow clones the gl-exporter source repository and builds the image automatically. In this scenario, GL_EXPORTER_REPO_URL and GLXREPO_GH_PAT must be configured in the GitHub Environment.
 
 ### 6.4 Check Migration Status by Migration ID
 
