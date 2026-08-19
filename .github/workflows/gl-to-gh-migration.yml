@@ -381,7 +381,6 @@ jobs:
           test -f ./runner.sh || { echo "[ERROR] runner.sh not found"; exit 1; }
           test -f ./config.sh || { echo "[ERROR] config.sh not found"; exit 1; }
           test -f ./gl-migration-readiness-check.sh || { echo "[ERROR] gl-migration-readiness-check.sh not found"; exit 1; }
-          test -f ./gl-gitsizer-readiness-check.sh || { echo "[ERROR] gl-gitsizer-readiness-check.sh not found"; exit 1; }
           test -f ./generate-gl-migration-archive.sh || { echo "[ERROR] generate-gl-migration-archive.sh not found"; exit 1; }
           test -f ./upload-gl-migration-archive.sh || { echo "[ERROR] upload-gl-migration-archive.sh not found"; exit 1; }
           test -f ./start-gl2gh-repo-migration.sh || { echo "[ERROR] start-gl2gh-repo-migration.sh not found"; exit 1; }
@@ -426,7 +425,7 @@ jobs:
           printf '\n'
 
 # --------------------------------------------------
-# Pre-Migration Readiness + GitSizer Check
+# Pre-Migration Readiness
 # --------------------------------------------------
   pre-migration-readiness-check:
     name: pre-migration-readiness-check
@@ -458,8 +457,6 @@ jobs:
   
       INVENTORY_FILE: ${{ inputs.INVENTORY_FILE }}
   
-      GIT_SIZER_LARGE_FILE_THRESHOLD_BYTES: "419430400"
-  
     needs:
       - validate-prerequisites
   
@@ -475,7 +472,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node_modules-
   
-      - name: Pre-Migration Readiness + GitSizer Check
+      - name: Pre-Migration Readiness
         shell: bash
         run: |
           echo "======================================="
@@ -498,12 +495,9 @@ jobs:
           export AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY:-}"
           export AZURE_STORAGE_CONNECTION_STRING="${AZURE_STORAGE_CONNECTION_STRING:-}"
           export INVENTORY_FILE="${INVENTORY_FILE:-}"
-          export GIT_SIZER_LARGE_FILE_THRESHOLD_BYTES="${GIT_SIZER_LARGE_FILE_THRESHOLD_BYTES:-419430400}"
   
           chmod +x ./config.sh
-          chmod +x ./gl-migration-readiness-check.sh
-          chmod +x ./gl-gitsizer-readiness-check.sh
-  
+          chmod +x ./gl-migration-readiness-check.sh  
           echo
           echo "# 1. Migration Readiness Check"
           echo "=============================="
@@ -512,17 +506,6 @@ jobs:
             > gl-migration-readiness-check.out 2>&1 || {
               echo "[ERROR] Migration readiness check failed"
               cat gl-migration-readiness-check.out
-              exit 1
-            }
-  
-          echo
-          echo "# 2. GitSizer Repository Discovery"
-          echo "=================================="
-          echo "Running GitSizer readiness checks for repository size and large file analysis..."
-          ./gl-gitsizer-readiness-check.sh \
-            > gl-gitsizer-readiness-check.out 2>&1 || {
-              echo "[ERROR] GitSizer readiness check failed"
-              cat gl-gitsizer-readiness-check.out
               exit 1
             }
   
@@ -537,11 +520,6 @@ jobs:
           tail -50 gl-migration-readiness-check.out || true
   
           echo
-          echo "GitSizer Output"
-          echo "--------------------------"
-          tail -50 gl-gitsizer-readiness-check.out || true
-  
-          echo
           echo "======================================="
           echo "# Files To Review"
           echo "======================================="
@@ -549,30 +527,6 @@ jobs:
           echo
           echo "Migration Readiness:"
           echo "  gl-migration-readiness-check.out"
-  
-          echo
-          echo "GitSizer Summary:"
-          echo "  output_files/git-sizer-readiness/final-report.txt"
-  
-          echo
-          echo "Repository Metrics:"
-          echo "  output_files/git-sizer-readiness/repo-metrics.csv"
-  
-          echo
-          echo "Large Files (>400MB):"
-          echo "  output_files/git-sizer-readiness/large-files-above-400mb.csv"
-  
-          echo
-          echo "Per Repository Reports:"
-          echo "  output_files/git-sizer-readiness/per-repo-csv/"
-  
-          echo
-          echo "Per Repository Large Files:"
-          echo "  output_files/git-sizer-readiness/per-repo-large-files/"
-  
-          echo
-          echo "Logs:"
-          echo "  logs/"
   
       - name: Upload Readiness Artifacts
         if: always()
@@ -582,17 +536,6 @@ jobs:
           retention-days: 7
           path: |
             gl-migration-readiness-check.out
-            gl-gitsizer-readiness-check.out
-            logs/
-            output_files/git-sizer-readiness/final-report.txt
-            output_files/git-sizer-readiness/repo-size-summary.csv
-            output_files/git-sizer-readiness/repo-metrics.csv
-            output_files/git-sizer-readiness/large-files-above-*mb.csv
-            output_files/git-sizer-readiness/per-repo-csv/
-            output_files/git-sizer-readiness/per-repo-large-files/
-            output_files/git-sizer-readiness/gitsizer-json/
-            output_files/git-sizer-readiness/gitsizer-text/
-          
  
   # ------------------ Approve after Readiness Check ------------------
   approve-after-readiness-check:
@@ -618,36 +561,7 @@ jobs:
           echo
           echo "Review readiness results:"
           echo "  - gl-migration-readiness-check.out"
-      
-          echo
-          echo "Review GitSizer summary:"
-          echo "  - output_files/git-sizer-readiness/final-report.txt"
-      
-          echo
-          echo "Review repository metrics:"
-          echo "  - output_files/git-sizer-readiness/repo-metrics.csv"
-      
-          echo
-          echo "IMPORTANT - Review files above 400 MB:"
-          echo "  - output_files/git-sizer-readiness/large-files-above-400mb.csv"
-      
-          echo
-          echo "Repository-specific reports:"
-          echo "  - output_files/git-sizer-readiness/per-repo-csv/"
-      
-          echo
-          echo "Repository-specific large files:"
-          echo "  - output_files/git-sizer-readiness/per-repo-large-files/"
-      
-          echo
-          echo "Logs:"
-          echo "  - logs/"
-      
-          echo
-          echo "Repos marked as:"
-          echo "  POTENTIAL_MIGRATION_FAILURE_FILE_ABOVE_400MB"
-          echo "must be reviewed before migration."
-      
+
           echo
           echo "Approve only after reviewing all readiness results."
 
