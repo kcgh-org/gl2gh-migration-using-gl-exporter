@@ -640,9 +640,20 @@ jobs:
                 echo "[ERROR] GLXREPO_GH_PAT is required"
                 exit 1
               }
+
+              REPO_URL="${GL_EXPORTER_REPO_URL}"
+              
+              # Support both:
+              # github.com/org/repo.git
+              # https://github.com/org/repo.git
+              
+              REPO_URL="${REPO_URL#https://}"
+              REPO_URL="${REPO_URL#http://}"
+              
               git clone \
-                "https://x-access-token:${GLXREPO_GH_PAT}@${GL_EXPORTER_REPO_URL}" \
+                "https://x-access-token:${GLXREPO_GH_PAT}@${REPO_URL}" \
                 gl_exporter
+
               docker build --no-cache=true -t gl-exporter ./gl_exporter
             fi
           echo "[INFO] Verifying gl-exporter image..."
