@@ -584,6 +584,9 @@ jobs:
       AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      GL_EXPORTER_REPO_URL: ${{ vars.GL_EXPORTER_REPO_URL }}
+      GLXREPO_GH_PAT: ${{ secrets.GLXREPO_GH_PAT }}
+      
     needs: [approve-after-readiness-check]
     outputs:
       ARCHIVE_LIST_BASENAME: ${{ steps.capture.outputs.ARCHIVE_LIST_BASENAME }}
@@ -615,27 +618,38 @@ jobs:
           export GH_TOKEN="${GH_TOKEN:-}"
           export GITHUB_API_URL="${GH_API_URL:-}"
           export STORAGE_TYPE="${STORAGE_TYPE:-GITHUB}"
+          export GL_EXPORTER_REPO_URL="${GL_EXPORTER_REPO_URL:-}"
+          export GLXREPO_GH_PAT="${GLXREPO_GH_PAT:-}"
 
           # Build gl-exporter image
-          printf '\n'
-          echo "[INFO] Building gl-exporter Docker image if not present..."
-
           if ! docker image inspect gl-exporter >/dev/null 2>&1; then
+            printf '\n'
             echo "[INFO] gl-exporter image not found. Building now..."
-
-            [ -d "./gl_exporter" ] || {
-              echo "[ERROR] gl_exporter directory not found"
-              exit 1
-            }
-
-            docker build --no-cache=true -t gl-exporter ./gl_exporter
-
-            echo "[INFO] Verifying gl-exporter image..."
-
-            docker image inspect gl-exporter >/dev/null 2>&1 || {
-              echo "[ERROR] gl-exporter build failed"
-              exit 1
-            }
+            if [[ -d "./gl_exporter" ]]; then
+              echo "[INFO] Using local gl_exporter directory"
+              docker build --no-cache=true -t gl-exporter ./gl_exporter
+            else
+              echo "[INFO] Local gl_exporter directory not found"
+              echo "[INFO] Cloning gl-exporter from repository"
+              [[ -n ${GL_EXPORTER_REPO_URL:-} ]] || {
+                echo "[ERROR] GL_EXPORTER_REPO_URL is required"
+                exit 1
+              }
+              
+              [[ -n ${GLXREPO_GH_PAT:-} ]] || {
+                echo "[ERROR] GLXREPO_GH_PAT is required"
+                exit 1
+              }
+              git clone \
+                "https://x-access-token:${GLXREPO_GH_PAT}@${GL_EXPORTER_REPO_URL}" \
+                gl_exporter
+              docker build --no-cache=true -t gl-exporter ./gl_exporter
+            fi
+          echo "[INFO] Verifying gl-exporter image..."
+          docker image inspect gl-exporter >/dev/null 2>&1 || {
+            echo "[ERROR] gl-exporter build failed"
+            exit 1
+          }
           else
             echo "[INFO] gl-exporter image already exists"
           fi
