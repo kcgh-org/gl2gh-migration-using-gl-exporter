@@ -1,2 +1,3 @@
-Namespace,Project,Commit_Count,Branch_Count,Full_URL,github_org,github_repo,gh_repo_visibility
-migration-demo-group,AI-Chatbot,13,2,http://gitlabpoc.eastus.cloudapp.azure.com/migration-demo-group/AI-Chatbot,gl-mig-org,AI-Chatbot-20260819-2a,private
+Namespace,Project,Commit_Count,Branch_Count,Full_URL,github_org,github_repo,gh_repo_visibility,include_in_export,exclude_from_export
+gl2gh-migration/gl-exporter-test,exclude-test-repo,1,2,http://gitlabpoc.eastus.cloudapp.azure.com/gl2gh-migration/gl-exporter-test/exclude-test-repo,kcghorgz,exclude-test-repo,private,,issues|merge_requests|commit_comments|hooks|wiki
+gl2gh-migration/gl-exporter-test,include-test-repo,1,2,http://gitlabpoc.eastus.cloudapp.azure.com/gl2gh-migration/gl-exporter-test/include-test-repo,kcghorgz,include-test-repo,private,issues|merge_requests|commit_comments|hooks|wiki,
