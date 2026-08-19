@@ -1,7 +1,0 @@
-# pack-refs with: peeled fully-peeled 
-3a1811f3cb96e9bc426f6ee3544a2cf4f7d5f3fd refs/heads/master
-c222af415ecc78c644c139cbf5eb44a25205cbad refs/heads/omniauth-login
-a7c109c372ca8869b22350f2977cf75334d6bf57 refs/heads/test-branch
-1490680b9a193ff188eb0dff7281b29869c62937 refs/tags/end-of-sinatra
-fb035ef85099a7d4066b1a80c8eae85123aae30c refs/tags/v1.0.0
-^3a1811f3cb96e9bc426f6ee3544a2cf4f7d5f3fd

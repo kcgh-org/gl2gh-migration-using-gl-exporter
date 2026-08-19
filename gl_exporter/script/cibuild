@@ -1,7 +1,0 @@
-#!/bin/bash
-
-script_dir=$(dirname "$0")
-source "$script_dir/cibuild-environment"
-
-echo "Running tests..."
-run_test rspec
