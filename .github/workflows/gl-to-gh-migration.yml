@@ -690,6 +690,7 @@ jobs:
           echo "ARCHIVE_LIST_BASENAME=$ARCHIVE_LIST_BASENAME" >> "$GITHUB_OUTPUT"
 
       - name: Upload artifacts
+        if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: generate-migration-archives-artifacts
@@ -820,6 +821,7 @@ jobs:
           echo "UPLOADED_ARCHIVES_BASENAME=$UPLOADED_ARCHIVES_BASENAME" >> "$GITHUB_OUTPUT"
 
       - name: Upload artifacts
+        if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: upload-migration-archives-artifacts
@@ -934,6 +936,7 @@ jobs:
           echo "MIGRATION_OUTPUT_FILE_BASENAME=$MIGRATION_OUTPUT_FILE_BASENAME" >> "$GITHUB_OUTPUT"
 
       - name: Upload artifacts
+        if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: start-repository-migration-artifacts
@@ -1097,6 +1100,7 @@ jobs:
           } | tee "$SUMMARY_FILE"
 
       - name: Upload artifacts
+        if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: display-migration-summary-artifacts
@@ -1218,6 +1222,7 @@ jobs:
           fi
           
       - name: Upload artifacts
+        if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: monitor-repository-migrations-artifacts
