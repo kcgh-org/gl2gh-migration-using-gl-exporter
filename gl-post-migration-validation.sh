@@ -29,7 +29,6 @@ exec > >(tee -a "$LOG_FILE") 2>&1
 # -------------------------
 command -v gh >/dev/null 2>&1 || { echo "ERROR: GitHub CLI (gh) not found" >&2; exit 1; }
 command -v jq >/dev/null 2>&1 || { echo "ERROR: jq not found" >&2; exit 1; }
-command -v python3 >/dev/null 2>&1 || { echo "ERROR: python3 not found" >&2; exit 1; }
 
 if [[ -z "${INVENTORY_FILE}" ]]; then
   echo "ERROR: INVENTORY_FILE is not set" >&2
@@ -231,7 +230,7 @@ while IFS= read -r raw; do
       per=100
 
       while :; do
-        enc_branch="$(python3 -c 'import urllib.parse,sys; print(urllib.parse.quote(sys.argv[1]))' "$github_default_branch")"
+        enc_branch="$(printf '%s' "$github_default_branch" | jq -sRr @uri)"
         chunk="$(gh api "/repos/${github_org}/${github_repo}/commits?sha=${enc_branch}&page=${page}&per_page=${per}" | jq -c '.')"
         cnt="$(printf '%s' "$chunk" | jq 'length')"
 
