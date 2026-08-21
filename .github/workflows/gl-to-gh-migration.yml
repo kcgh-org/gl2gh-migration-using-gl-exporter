@@ -258,21 +258,11 @@ jobs:
           fi
 
           # Install Extensions
-          gh extension install https://github.com/mona-actions/gh-gitlab-stats || gh extension upgrade gh-gitlab-stats || true
-          gh extension install https://github.com/mona-actions/gh-migration-monitor || gh extension upgrade gh-migration-monitor || true
           gh extension install https://github.com/github/gh-ado2gh || gh extension upgrade gh-ado2gh || true
   
           # Verify GH extensions
           echo "[INFO] Verifying GitHub CLI extensions..."
           EXTENSIONS="$(gh extension list)"
-          echo "$EXTENSIONS" | grep -q "gh-gitlab-stats" || {
-            echo "[ERROR] gh-gitlab-stats extension missing"
-            exit 1
-          }
-          echo "$EXTENSIONS" | grep -q "gh-migration-monitor" || {
-            echo "[ERROR] gh-migration-monitor extension missing"
-            exit 1
-          }
           echo "$EXTENSIONS" | grep -q "ado2gh" || {
             echo "[ERROR] gh-ado2gh extension missing"
             exit 1

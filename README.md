@@ -40,8 +40,6 @@ The following package dependencies are automatically installed when the GitHub A
 
 The following GitHub CLI extensions are automatically installed by the workflow:
 
-- gh-gitlab-stats: Generates GitLab inventory reports.
-- gh-migration-monitor: Monitors migration status.
 - gh-ado2gh:
   - Migration status checks
   - Mannequin CSV generation
