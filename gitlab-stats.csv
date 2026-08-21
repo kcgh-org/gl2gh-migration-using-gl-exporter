@@ -1,3 +1,3 @@
 Namespace,Project,Commit_Count,Branch_Count,Full_URL,github_org,github_repo,gh_repo_visibility,include_in_export,exclude_from_export
-gl2gh-migration/gl-exporter-test,exclude-test-repo,1,2,http://gitlabpoc.eastus.cloudapp.azure.com/gl2gh-migration/gl-exporter-test/exclude-test-repo,gl-mig-org,exclude-test-repo-20260819-1a,private,,issues|merge_requests|commit_comments|hooks|wiki
-gl2gh-migration/gl-exporter-test,include-test-repo,1,2,http://gitlabpoc.eastus.cloudapp.azure.com/gl2gh-migration/gl-exporter-test/include-test-repo,gl-mig-org,include-test-repo-20260819-1a,private,issues|merge_requests|commit_comments|hooks|wiki,
+gl2gh-migration/gl-exporter-test,exclude-test-repo,1,2,http://gitlabpoc.eastus.cloudapp.azure.com/gl2gh-migration/gl-exporter-test/exclude-test-repo,cmf-factory,exclude-test-repo-20260819-1a,private,,issues|merge_requests|commit_comments|hooks|wiki
+gl2gh-migration/gl-exporter-test,include-test-repo,1,2,http://gitlabpoc.eastus.cloudapp.azure.com/gl2gh-migration/gl-exporter-test/include-test-repo,cmf-factory,include-test-repo-20260819-1a,private,issues|merge_requests|commit_comments|hooks|wiki,
