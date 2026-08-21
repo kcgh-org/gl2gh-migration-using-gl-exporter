@@ -1259,20 +1259,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
 
-      # ✅ Authenticate to GitHub host
-      - name: Authenticate to GitHub host
-        shell: bash
-        run: |
-          unset GH_TOKEN
-          export TARGET_GITHUB_API_URL="${TARGET_GITHUB_API_URL:-}"
-          if [[ -n "${TARGET_GITHUB_API_URL:-}" ]]; then
-              GH_HOST="$(echo "$TARGET_GITHUB_API_URL" | sed -E 's#https://api\.##')"
-              echo "$GH_PAT" | gh auth login --with-token --hostname "$GH_HOST"
-          else
-              echo "$GH_PAT" | gh auth login --with-token
-          fi
-          gh auth status
-
       - name: Run Post Validation Script
         shell: bash
         run: |
@@ -1282,6 +1268,17 @@ jobs:
           export GH_TOKEN="${GH_PAT:-}"
           export SOURCE_GL_SERVER_URL="${SOURCE_GL_SERVER_URL:-}"
           export GITLAB_API_PRIVATE_TOKEN="${GITLAB_API_PRIVATE_TOKEN:-}"
+
+          # ✅ Authenticate to GitHub host
+          unset GH_TOKEN
+          export TARGET_GITHUB_API_URL="${TARGET_GITHUB_API_URL:-}"
+          if [[ -n "${TARGET_GITHUB_API_URL:-}" ]]; then
+              GH_HOST="$(echo "$TARGET_GITHUB_API_URL" | sed -E 's#https://api\.##')"
+              echo "$GH_PAT" | gh auth login --with-token --hostname "$GH_HOST"
+          else
+              echo "$GH_PAT" | gh auth login --with-token
+          fi
+          gh auth status
           chmod +x ./gl-post-migration-validation.sh
           ./gl-post-migration-validation.sh
           
