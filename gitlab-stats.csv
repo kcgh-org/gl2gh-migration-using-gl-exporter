@@ -1,3 +1,2 @@
-Namespace,Project,Commit_Count,Branch_Count,Full_URL,github_org,github_repo,gh_repo_visibility,include_in_export,exclude_from_export
-gl2gh-migration/gl-exporter-test,exclude-test-repo,1,2,http://gitlabpoc.eastus.cloudapp.azure.com/gl2gh-migration/gl-exporter-test/exclude-test-repo,gl-mig-org,exclude-test-repo-20260820-z1,private,,issues|merge_requests|commit_comments|hooks|wiki
-gl2gh-migration/gl-exporter-test,include-test-repo,1,2,http://gitlabpoc.eastus.cloudapp.azure.com/gl2gh-migration/gl-exporter-test/include-test-repo,gl-mig-org,include-test-repo-20260820-z2,private,issues|merge_requests|commit_comments|hooks|wiki,
+Namespace,Project,Commit_Count,Branch_Count,Full_URL,github_org,github_repo,gh_repo_visibility
+gl2gh-migration-group,gl2gh-migration-project,1,2,http://gitlabpoc.eastus.cloudapp.azure.com/gl2gh-migration-group/gl2gh-migration-project,gl-mig-org,gl2gh-migration-project,private
