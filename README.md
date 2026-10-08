@@ -211,7 +211,7 @@ The following workflow jobs use this environment:
 |--------|-------------|
 | `SOURCE_GL_SERVER_URL` | GitLab server URL |
 | `GITLAB_USERNAME` | GitLab username |
-| `TARGET_GITHUB_API_URL` | Optional. Required only when using GitHub Enterprise Cloud with Data Residency. Example: https://api.SUBDOMAIN.ghe.com |
+| `TARGET_GITHUB_API_URL` | Required only when using GitHub Enterprise Cloud with Data Residency. Example: https://api.SUBDOMAIN.ghe.com |
 | `STORAGE_TYPE` | Required for using AWS or AZURE storages. Allowed values: `AZURE`, or `AWS` |
 | `AZ_CONTAINER` | Required when `STORAGE_TYPE=AZURE` |
 | `AWS_BUCKET_NAME` | Required when `STORAGE_TYPE=AWS` |
