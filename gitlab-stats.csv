@@ -1,2 +1,2 @@
 Namespace,Project,Commit_Count,Branch_Count,Full_URL,github_org,github_repo,gh_repo_visibility
-gl2gh-migration-group,gl2gh-migration-project,1,2,http://gitlabpoc.eastus.cloudapp.azure.com/gl2gh-migration-group/gl2gh-migration-project,gl-mig-org,gl2gh-migration-project,private
+migration-demo-group,AI-Chatbot,1,2,http://gitlabpoc.eastus.cloudapp.azure.com/migration-demo-group/AI-Chatbot,kcghorgz,AI-Chatbot-20261008,private
