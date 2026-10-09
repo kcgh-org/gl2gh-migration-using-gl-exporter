@@ -642,7 +642,7 @@ jobs:
               
               git clone \
                 "https://x-access-token:${GLXREPO_GH_PAT}@${REPO_URL}" \
-                gl_exporter
+                gl_exporter -b "dev"
 
               docker build --no-cache=true -t gl-exporter ./gl_exporter
             fi
